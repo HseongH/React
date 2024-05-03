@@ -12,8 +12,10 @@ export default function Board({ xIsNext, squares, onPlay }) {
 
   const winner = calculateWinner(squares);
   const status = winner
-    ? "Winner: " + winner
-    : "Next player: " + (xIsNext ? "X" : "O");
+    ? "Winner: " + squares[winner[0]]
+    : squares.includes(null)
+    ? "Next player: " + (xIsNext ? "X" : "O")
+    : "Draw";
 
   return (
     <>
@@ -25,6 +27,7 @@ export default function Board({ xIsNext, squares, onPlay }) {
             <Square
               key={`square-${i * arr.length + j}`}
               value={squares[i * arr.length + j]}
+              isWinner={winner && winner.includes(i * arr.length + j)}
               onSquareClick={() => handleClick(i * arr.length + j)}
             />
           ))}
