@@ -21,6 +21,8 @@ export default function Game() {
     <div className="game">
       <div className="game-board">
         <Board xIsNext={xIsNext} squares={currentSquares} onPlay={handlePlay} />
+
+        <div className="status">{`당신은 ${currentMove}번째 순서에 있습니다…`}</div>
       </div>
 
       <div className="game-info">
