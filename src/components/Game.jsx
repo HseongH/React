@@ -3,6 +3,7 @@ import Board from "./Board";
 
 export default function Game() {
   const [history, setHistory] = useState([Array(9).fill(null)]);
+  const [moveHistory, setMoveHistory] = useState(Array(1).fill(null));
   const [currentMove, setCurrentMove] = useState(0);
   const [orderBy, setOrderBy] = useState("asc");
   const xIsNext = currentMove % 2 === 0;
@@ -11,9 +12,10 @@ export default function Game() {
   const handleOrderBy = () => {
     setOrderBy(orderBy === "asc" ? "desc" : "asc");
   };
-  const handlePlay = (nextSquares) => {
+  const handlePlay = (nextSquares, squareIndex) => {
     const nextHistory = [...history.slice(0, currentMove + 1), nextSquares];
     setHistory(nextHistory);
+    setMoveHistory([...moveHistory, squareIndex]);
     setCurrentMove(nextHistory.length - 1);
   };
 
@@ -22,7 +24,12 @@ export default function Game() {
   };
 
   const moves = history.map((squares, move) => {
-    const description = move > 0 ? `Go to move #${move}` : "Go to game start";
+    const description =
+      move > 0
+        ? `Go to move #${move} ${
+            history[move][moveHistory[move]]
+          } (${Math.floor(moveHistory[move] / 3)}, ${moveHistory[move] % 3})`
+        : "Go to game start";
 
     return (
       <li key={move}>
